@@ -1,0 +1,7 @@
+name: ChromePhp_helper
+version: 3.0.0
+compatibility: 2.1.0
+
+dependencies: []
+
+tags: ["chrome", "error", "log", "console", "debugging"]
