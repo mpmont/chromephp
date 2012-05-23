@@ -20,6 +20,7 @@
  *
  * @package ChromePhp
  * @author Craig Campbell <iamcraigcampbell@gmail.com>
+ * @codeigniter wrapper: Marco Monteiro <marco@marcomonteiro.net>
  */
 class ChromePhp
 {
@@ -162,7 +163,7 @@ class ChromePhp
             $severity = '';
         }
 
-        return self::_log($args + array('type' => $severity));
+        return ( ENVIRONMENT == 'development') ? self::_log($args + array('type' => $severity)) : NULL;
     }
 
     /**
@@ -174,7 +175,7 @@ class ChromePhp
      */
     public static function warn()
     {
-        return self::_log(func_get_args() + array('type' => self::WARN));
+        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::WARN)) : NULL;
     }
 
     /**
@@ -186,7 +187,7 @@ class ChromePhp
      */
     public static function error()
     {
-        return self::_log(func_get_args() + array('type' => self::ERROR));
+        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::ERROR)) : NULL;
     }
 
     /**
@@ -196,7 +197,7 @@ class ChromePhp
      */
     public static function group()
     {
-        return self::_log(func_get_args() + array('type' => self::GROUP));
+        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::GROUP)) : NULL;
     }
 
     /**
@@ -206,7 +207,7 @@ class ChromePhp
      */
     public static function info()
     {
-        return self::_log(func_get_args() + array('type' => self::INFO));
+        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::INFO)) : NULL;
     }
 
     /**
@@ -216,7 +217,7 @@ class ChromePhp
      */
     public static function groupCollapsed()
     {
-        return self::_log(func_get_args() + array('type' => self::GROUP_COLLAPSED));
+        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::GROUP_COLLAPSED)) : NULL;
     }
 
     /**
@@ -226,7 +227,7 @@ class ChromePhp
      */
     public static function groupEnd()
     {
-        return self::_log(func_get_args() + array('type' => self::GROUP_END));
+        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::GROUP_END)) : NULL;
     }
 
     /**
