@@ -9,7 +9,7 @@ INSTALLATION
 1.  Download the Chrome extension from: https://chrome.google.com/extensions/detail/noaneddfkdjfnfdakjjmocngnfkfehhd
 2.  Put ChromePhp.php somewhere in your PHP include path
 3.  Click the extension icon on the browser to enable it for the current site
-3.  Load the helper $this->load->helper('ChromePhp');
+3.  Load the helper $this->load->spark('ChromePhp_helper/3.0.0');
 4.  Log your stuff -> ChromePhp::log('hello world');
 
 More information can be found here:
