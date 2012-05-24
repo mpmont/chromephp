@@ -1,4 +1,6 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+
 /**
  * Copyright 2012 Craig Campbell
  *
@@ -20,11 +22,16 @@
  *
  * @package ChromePhp
  * @author Craig Campbell <iamcraigcampbell@gmail.com>
- * @codeigniter wrapper: Marco Monteiro <marco@marcomonteiro.net>
  */
 class ChromePhp
 {
     /**
+     * To make it work with PHP 5.2.4
+     * @var string
+     */
+    const MIN_PHP = '5.2.5';
+    
+	/**
      * @var string
      */
     const VERSION = '3.0';
@@ -163,7 +170,7 @@ class ChromePhp
             $severity = '';
         }
 
-        return ( ENVIRONMENT == 'development') ? self::_log($args + array('type' => $severity)) : NULL;
+        return self::_log($args + array('type' => $severity));
     }
 
     /**
@@ -175,7 +182,7 @@ class ChromePhp
      */
     public static function warn()
     {
-        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::WARN)) : NULL;
+        return self::_log(func_get_args() + array('type' => self::WARN));
     }
 
     /**
@@ -187,7 +194,7 @@ class ChromePhp
      */
     public static function error()
     {
-        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::ERROR)) : NULL;
+        return self::_log(func_get_args() + array('type' => self::ERROR));
     }
 
     /**
@@ -197,7 +204,7 @@ class ChromePhp
      */
     public static function group()
     {
-        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::GROUP)) : NULL;
+        return self::_log(func_get_args() + array('type' => self::GROUP));
     }
 
     /**
@@ -207,7 +214,7 @@ class ChromePhp
      */
     public static function info()
     {
-        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::INFO)) : NULL;
+        return self::_log(func_get_args() + array('type' => self::INFO));
     }
 
     /**
@@ -217,7 +224,7 @@ class ChromePhp
      */
     public static function groupCollapsed()
     {
-        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::GROUP_COLLAPSED)) : NULL;
+        return self::_log(func_get_args() + array('type' => self::GROUP_COLLAPSED));
     }
 
     /**
@@ -227,7 +234,7 @@ class ChromePhp
      */
     public static function groupEnd()
     {
-        return ( ENVIRONMENT == 'development') ? self::_log(func_get_args() + array('type' => self::GROUP_END)) : NULL;
+        return self::_log(func_get_args() + array('type' => self::GROUP_END));
     }
 
     /**
@@ -237,7 +244,11 @@ class ChromePhp
      * @return void
      */
     protected static function _log(array $args)
-    {
+    {	
+    	if (defined('ENVIRONMENT') AND ENVIRONMENT !== 'development') {
+    		return;
+    	}
+
         $type = $args['type'];
         unset($args['type']);
 
@@ -261,7 +272,11 @@ class ChromePhp
         $logger->_processed = array();
         $value = $logger->_convert($value);
 
-        $backtrace = debug_backtrace(false);
+        // david.wosnitza // 2012-05-09 13:42:41.971811
+        // make it work with PHP 5.2.4
+        // 
+        // $backtrace = debug_backtrace(false);
+        $backtrace = (version_compare(phpversion(), self::MIN_PHP) < 0) ? debug_backtrace() : debug_backtrace(FALSE);
         $level = $logger->getSetting(self::BACKTRACE_LEVEL);
 
         $backtrace_message = 'unknown';
@@ -436,3 +451,6 @@ class ChromePhp
         return $this->_settings[$key];
     }
 }
+
+/* End of file chromephp_helper.php */
+/* Location: ./application/helper/ChromePhp_helper.php */
